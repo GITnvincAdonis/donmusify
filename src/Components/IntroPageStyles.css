@@ -1,0 +1,16 @@
+.intro-container{
+    display: flex;
+    place-items: center;
+}
+.intro-image{
+    height: 10rem;
+    width: 10rem;
+    background-color: aqua;
+    margin: 2rem;
+}
+.logo-text{
+    font-size: 3rem;
+}
+.logo-text-2{
+    font-size: 1.2rem;
+}
