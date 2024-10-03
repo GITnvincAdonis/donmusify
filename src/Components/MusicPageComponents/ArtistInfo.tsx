@@ -1,37 +1,57 @@
 import "bootstrap/dist/css/bootstrap.css";
 
-export default function ArtistInfo() {
-  const songs = [1, 1, 1, 1, 1];
-  const albums = [1, 1, 1];
+interface Album {
+  firstImage: string;
+  name: string;
+  track_number: string;
+  // add more properties as needed
+}
+interface Song {
+  Image: string;
+  song_name: string;
+  song_duration: number;
+}
+export default function ArtistInfo(props: {
+  name?: any;
+  genre?: any;
+  image?: any;
+  artistAlbums: Album[];
+  artistSongs: Song[];
+}) {
+  const { name, genre, image, artistAlbums, artistSongs } = props;
+  console.log("structured songs");
+  console.log(artistSongs);
+  // const songs = [1, 1, 1, 1, 1];
+  // const albums = [1, 1, 1];
   return (
     <>
       <div className="card text-bg-dark my-card-container">
-        <img src="..." className="card-img artist-image" />
+        <img src={image} className="card-img artist-image" />
         <div className="card-img-overlay artist-text-body">
-          <h5 className="card-title">Card title</h5>
-          <p className="card-text">
-            This is a wider card with supporting text below as a natural lead-in
-            to additional content. This content is a little bit longer.
-          </p>
+          <h5 className="card-title">{name}</h5>
+          <p className="card-text">{genre}</p>
         </div>
       </div>
 
       <div className="top-songs">
         <h2>TOP songs</h2>
 
-        {songs.map((item, index) => {
-          console.log(item);
+        {artistSongs.map((name, index) => {
           return (
             <div key={index} className={`side-song-info`}>
-              {index + 1}.
+              <div className="song-number">{index + 1}.</div>
               <img
                 className={`side-song-image side-song-image-${index + 1}`}
-                src="..."
+                src={name.Image}
                 alt=""
               />
               <div className={`  side-song-info-text`}>
-                <h3 className={`side-song-name`}> Song </h3>
-                <h4 className={`side-song-duration`}>1:20</h4>
+                <p className={`side-song-name`}> {name.song_name} </p>
+                <p className={`side-song-duration`}>
+                  {`${Math.floor(name.song_duration / 60000)}:${Math.floor(
+                    (name.song_duration % 60000) / 1000
+                  )}`}
+                </p>
               </div>
             </div>
           );
@@ -39,19 +59,21 @@ export default function ArtistInfo() {
       </div>
       <div className="top-songs">
         <h2>Albums</h2>
-        {albums.map((item, index) => {
-          console.log(item);
+        {artistAlbums.map((name, index) => {
           return (
             <div key={index} className={`side-song-info`}>
-              {index + 1}.
+              <div className="song-number">{index + 1}.</div>
+
               <img
                 className={`side-song-image side-song-image-${index + 1}`}
-                src="..."
+                src={name.firstImage}
                 alt=""
               />
               <div className={`  side-song-info-text`}>
-                <h3 className={`side-song-name`}> Song </h3>
-                <h4 className={`side-song-duration`}>1:20</h4>
+                <p className={`side-song-name`}> {name.name} </p>
+                <p className={`side-song-duration`}>
+                  {name.track_number}-songs
+                </p>
               </div>
             </div>
           );

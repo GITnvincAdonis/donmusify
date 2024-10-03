@@ -4,8 +4,8 @@ export default function MusicResults() {
     <>
       <div className="upper-song-container"></div>
       <div className="retrieved-songs">
-        {songs.map((item, index) => {
-          console.log(item);
+        {songs.map((_item, index) => {
+         
           return (
             <div key={index} className={`  main-song-info`}>
               {index + 1}.
@@ -18,9 +18,12 @@ export default function MusicResults() {
                 <div className={`main-song-name`}>
                   {" "}
                   <h3>fetched Song Name</h3>
-                  <div>simba/adsv/ad</div>
+                  <div>
+                    simba/adsv/<span>ad</span>
+                  </div>
                 </div>
                 <h4 className={`main-song-duration`}>1:20</h4>
+                <h4 className={`main-song-duration`}>1,081,020</h4>
               </div>
             </div>
           );
