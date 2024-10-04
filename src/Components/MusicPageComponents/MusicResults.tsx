@@ -8,7 +8,7 @@ interface GeneralSong {
 export default function MusicResults(props: { songObject: GeneralSong[] }) {
   const { songObject } = props;
 
-  console.log(songObject);
+  // console.log(songObject);
   return (
     <>
       <div className="upper-song-container"></div>
@@ -25,7 +25,7 @@ export default function MusicResults(props: { songObject: GeneralSong[] }) {
 
           return (
             <div key={index} className={`  main-song-info`}>
-              <div className="text-white p-3 number-column">{index + 1}.</div>
+              <div className="text-white  number-column">{index + 1}.</div>
 
               <img
                 className={`main-song-image main-song-image-${index + 1}`}
@@ -42,10 +42,11 @@ export default function MusicResults(props: { songObject: GeneralSong[] }) {
                   </div>
                 </div>
 
-                <h4 className={`main-song-duration`}>
+                <div className={`main-song-duration`}>
                   {" "}
-                  <h5>{time} </h5> <h5>1,081,020</h5>
-                </h4>
+                  <h5></h5>
+                  <h5>{time} </h5>
+                </div>
               </div>
             </div>
           );

@@ -1,16 +1,16 @@
 import "bootstrap/dist/css/bootstrap.css";
-
 interface Album {
   firstImage: string;
   name: string;
   track_number: string;
-  // add more properties as needed
 }
+
 interface Song {
   Image: string;
   song_name: string;
   song_duration: number;
 }
+
 export default function ArtistInfo(props: {
   name?: any;
   genre?: any;
@@ -19,17 +19,32 @@ export default function ArtistInfo(props: {
   artistSongs: Song[];
 }) {
   const { name, genre, image, artistAlbums, artistSongs } = props;
-  // console.log("structured songs");
+  console.log(genre);
   //console.log(artistSongs);
   // const songs = [1, 1, 1, 1, 1];
   // const albums = [1, 1, 1];
   return (
     <>
       <div className="card text-bg-dark my-card-container">
-        <img src={image} className="card-img artist-image" />
+        <img
+          src={image}
+          loading="lazy"
+          role="presentation"
+          decoding="async"
+          className="artist-image"
+        />
         <div className="card-img-overlay artist-text-body">
-          <h5 className="card-title">{name}</h5>
-          <p className="card-text">{genre}</p>
+          <h5 className="card-title ">{name}</h5>
+          <p className="card-text">
+            {/* {genre.map((item, index) => {
+              return <>{item}</>;
+            })} */}
+            {genre.length > 1
+              ? genre.map((item: any) => {
+                  return <span>{item}/ </span>;
+                })
+              : genre}
+          </p>
         </div>
       </div>
 
@@ -52,6 +67,10 @@ export default function ArtistInfo(props: {
               />
               <div className={`  side-song-info-text`}>
                 <p className={`side-song-name`}> {name.song_name} </p>
+                <div className={`side-song-name-hover`}>
+                  <h4>{name.song_name}</h4>
+                </div>
+
                 <p className={`side-song-duration`}>{time}</p>
               </div>
             </div>
@@ -72,6 +91,10 @@ export default function ArtistInfo(props: {
               />
               <div className={`  side-song-info-text`}>
                 <p className={`side-song-name`}> {name.name} </p>
+                <div className={`side-song-name-hover`}>
+                  <h4>{name.name}</h4>
+                </div>
+
                 <p className={`side-song-duration`}>
                   {name.track_number}-songs
                 </p>

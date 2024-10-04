@@ -33,7 +33,7 @@ export default function MusicPage() {
   const [fetchedSongs, setSongs] = useState<GeneralSong[]>([]);
   return (
     <>
-      <div className="vw-100 vh-100 border d-flex justify-content-center align-items-center">
+      <div className="vw-100 bg-black d-flex justify-content-center align-items-center">
         <div className="grid-container">
           <div className="grid-item grid-item-1">
             <SearchBar

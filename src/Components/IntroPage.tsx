@@ -2,8 +2,12 @@
 import "./IntroPageStyles.css";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
+import { useEffect } from "react";
 export default function IntroPage() {
   const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/home");
+  }, []);
   //   useEffect(() => {
   //     setTimeout(() => {
   //         navigate("/music-interface");

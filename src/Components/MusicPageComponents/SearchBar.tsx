@@ -91,7 +91,7 @@ export default function SearchBar(props: {
 
   return (
     <>
-      <nav data-bs-theme="dark" className="navbar bg-body-primary ">
+      <nav data-bs-theme="dark" className="navbar p-0 m-0 bg-body-primary ">
         <form className="container-fluid">
           <div className="input-group">
             <span className="input-group-text" id="basic-addon1">
@@ -100,10 +100,10 @@ export default function SearchBar(props: {
             <input
               id="searchField"
               type="text"
-              className="form-control"
+              autoComplete="off"
+              className="form-control search-bar"
               placeholder="Search Our API"
               aria-label="Search Our API"
-              aria-describedby="basic-addon1"
               onChange={(e) => {
                 fetchAPI(e.target.value).then((response) => {
                   //console.log("artist");
@@ -165,8 +165,8 @@ export default function SearchBar(props: {
                     })
                   );
                   setSong(generalSong);
-                  console.log(generalSong);
-                  console.log(response[3].tracks.items);
+                  // console.log(generalSong);
+                  // console.log(response[3].tracks.items);
                 });
 
                 console.log(e.target.value);
