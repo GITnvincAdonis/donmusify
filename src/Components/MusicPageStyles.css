@@ -18,7 +18,9 @@
 }
 
 .grid-item-3{
-   
+    scrollbar-width: 0;
+    
+   overflow: auto;
     padding: 0%;
     grid-row: 2/3;
     grid-column: 1/2;
@@ -79,7 +81,7 @@
 }
 .side-song-duration{
     margin: 0;
-  
+    justify-self: end;
     font-size: .91rem;
 }
 .main-song-image{
@@ -89,9 +91,14 @@
     background-color: rgb(194, 194, 194);
 }
 .main-song-info{
-    
+    padding: .21rem 1rem;
+    transition-duration: 140ms;
     margin-top: .41rem;
     display: flex;
+}
+.main-song-info:hover{
+    
+    background-color: #616161;
 }
 .main-song-info-text{
     
@@ -104,21 +111,59 @@
     color: white;
     margin-left: 1.3rem;
 }
-.main-song-name,.main-song-duration{
+.main-song-duration h5{
    
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 .main-song-name div{
     color: rgb(159, 159, 159);
 }
 .main-song-duration{
- 
-    margin-left: .1rem;
-}
-.main-song-info-text h3{
+    width: 20vw;
+    display: flex;
+    flex-direction: row;
     
-    font-size: 1.4rem;
+    justify-content: space-around;
+    
+    margin-left: .1rem;
+  
+}
+
+.main-song-info-text h3{
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 15vw;
+ 
+    font-size: 1rem;
     margin: 0;
+}
+.hover-text{
+    transform: translate(20px,-30px);
+    position: relative;
+    z-index: 100;
+   height: 0;
+   width: 1rem;
+    background-color: black;
+   
+
+   
+}
+.number-column{
+    width: 3rem;
+}
+.main-song-info-text h3:hover ~.hover-text h4{
+    opacity: 1;
+}
+.hover-text h4{
+    width: max-content;
+    font-size: 1.2rem;
+    opacity:0;
+    background-color: black;
+    border: 2px solid black;
 }
 .main-song-info-text div{
    
@@ -153,15 +198,14 @@
     width: 2vw;
 }
 /* width */
-.grid-item-2::-webkit-scrollbar {
-    scroll-snap-type:mandatory;
+::-webkit-scrollbar {
 
-  
-    width: 15px;
+    scrollbar-gutter: 100px;
+    width: 5px;
   }
   
   /* Track */
-  .grid-item-2::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
  
     margin-block: 2em;
     border-radius: 100vw;
@@ -169,7 +213,7 @@
   }
   
   /* Handle */
-  .grid-item-2::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     border-radius: 100vw;
     transition-duration: 200ms;
     background: #8888887b;
@@ -177,10 +221,10 @@
   }
   
   /* Handle on hover */
-  .grid-item-2::-webkit-scrollbar-thumb:hover{
+::-webkit-scrollbar-thumb:hover{
     background: #7a7a7a;
   }
-.grid-item-2::-webkit-scrollbar-track ~.grid-item-2::-webkit-scrollbar-thumb:hover{
+::-webkit-scrollbar-track ~::-webkit-scrollbar-thumb:hover{
 
     background: #0e0eb8;
   }

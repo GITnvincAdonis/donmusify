@@ -17,13 +17,20 @@ interface Song {
   song_name: string;
   song_duration: number;
 }
+interface GeneralSong {
+  Image: string;
+  song_name: string;
+  song_duration: number;
+  artist_name: string;
+}
+
 export default function MusicPage() {
   const [artistName, setArtistName] = useState("");
   const [artistGenre, setGenre] = useState("");
   const [artistImage, setImage] = useState("");
   const [artistSongs, setArtistSongs] = useState<Song[]>([]);
   const [artistAlbums, setArtistAlbums] = useState<Album[]>([]);
-  const [fetchedSongs, setSongs] = useState();
+  const [fetchedSongs, setSongs] = useState<GeneralSong[]>([]);
   return (
     <>
       <div className="vw-100 vh-100 border d-flex justify-content-center align-items-center">
@@ -48,7 +55,7 @@ export default function MusicPage() {
             />
           </div>
           <div className="grid-item grid-item-3">
-            <MusicResults />
+            <MusicResults songObject={fetchedSongs} />
           </div>
           <div className="grid-item grid-item-4"></div>
         </div>

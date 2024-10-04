@@ -50,10 +50,10 @@ export default function SearchBar(props: {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        //console.log(data);
         return data;
       });
-    console.log(generalSongs);
+    //console.log(generalSongs);
 
     const artist = await fetch(
       `https://api.spotify.com/v1/search?q=${searchString}&type=artist`,
@@ -106,12 +106,12 @@ export default function SearchBar(props: {
               aria-describedby="basic-addon1"
               onChange={(e) => {
                 fetchAPI(e.target.value).then((response) => {
-                  console.log("artist");
+                  //console.log("artist");
                   setArtistName(response[0].name);
                   setArtistGenre(response[0].genres);
                   setArtistImage(response[0].images[0].url);
 
-                  console.log("artist albums");
+                  // console.log("artist albums");
 
                   const namesArray = response[1].map(
                     (item: {
@@ -126,9 +126,9 @@ export default function SearchBar(props: {
                     })
                   );
                   setArtistAlbums(namesArray);
-                  console.log(response[1]);
+                  //console.log(response[1]);
 
-                  console.log("artist top tracks");
+                  //console.log("artist top tracks");
                   const songArray = response[2].tracks.map(
                     (item: {
                       name: string;
@@ -144,12 +144,29 @@ export default function SearchBar(props: {
                     })
                   );
                   setArtistSongs(songArray);
-                  console.log("tracks");
-                  console.log(response[2].tracks);
+                  //console.log("tracks");
+                  //console.log(response[2].tracks);
 
                   console.log("general song search");
-                  setSong(response[3]);
-                  console.log(response[3]);
+                  const generalSong = response[3].tracks.items.map(
+                    (item: {
+                      name: string;
+                      duration_ms: number;
+                      album: any;
+                      artists: any;
+                    }) => ({
+                      song_name: item.name,
+                      song_duration: item.duration_ms,
+                      Image:
+                        item.album.images.length > 0
+                          ? item.album.images[0].url
+                          : null,
+                      artist_name: item.artists[0].name,
+                    })
+                  );
+                  setSong(generalSong);
+                  console.log(generalSong);
+                  console.log(response[3].tracks.items);
                 });
 
                 console.log(e.target.value);

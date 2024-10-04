@@ -19,8 +19,8 @@ export default function ArtistInfo(props: {
   artistSongs: Song[];
 }) {
   const { name, genre, image, artistAlbums, artistSongs } = props;
-  console.log("structured songs");
-  console.log(artistSongs);
+  // console.log("structured songs");
+  //console.log(artistSongs);
   // const songs = [1, 1, 1, 1, 1];
   // const albums = [1, 1, 1];
   return (
@@ -37,6 +37,11 @@ export default function ArtistInfo(props: {
         <h2>TOP songs</h2>
 
         {artistSongs.map((name, index) => {
+          const minutes = Math.floor(name.song_duration / 60000);
+          const seconds = Math.floor((name.song_duration % 60000) / 1000);
+
+          const isDivisible = seconds / 10 >= 1;
+          const time = `${minutes}:${isDivisible ? seconds : "0" + seconds}`;
           return (
             <div key={index} className={`side-song-info`}>
               <div className="song-number">{index + 1}.</div>
@@ -47,11 +52,7 @@ export default function ArtistInfo(props: {
               />
               <div className={`  side-song-info-text`}>
                 <p className={`side-song-name`}> {name.song_name} </p>
-                <p className={`side-song-duration`}>
-                  {`${Math.floor(name.song_duration / 60000)}:${Math.floor(
-                    (name.song_duration % 60000) / 1000
-                  )}`}
-                </p>
+                <p className={`side-song-duration`}>{time}</p>
               </div>
             </div>
           );
