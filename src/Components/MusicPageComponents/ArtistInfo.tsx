@@ -40,8 +40,8 @@ export default function ArtistInfo(props: {
               return <>{item}</>;
             })} */}
             {genre.length > 1
-              ? genre.map((item: any) => {
-                  return <span>{item}/ </span>;
+              ? genre.map((item: any, index: any) => {
+                  return <span key={index}>{item}/ </span>;
                 })
               : genre}
           </p>

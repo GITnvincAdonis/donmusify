@@ -7,6 +7,7 @@ export default function SearchBar(props: {
   setArtistSongs: any;
   setArtistAlbums: any;
   setSong: any;
+  setSearchString: any;
 }) {
   const {
     setArtistName,
@@ -15,6 +16,7 @@ export default function SearchBar(props: {
     setArtistGenre,
     setArtistAlbums,
     setSong,
+    setSearchString,
   } = props;
   const [accessToken, setAccessToken] = useState("");
   useEffect(() => {
@@ -105,6 +107,7 @@ export default function SearchBar(props: {
               placeholder="Search Our API"
               aria-label="Search Our API"
               onChange={(e) => {
+                setSearchString(e.target.value);
                 fetchAPI(e.target.value).then((response) => {
                   //console.log("artist");
                   setArtistName(response[0].name);
