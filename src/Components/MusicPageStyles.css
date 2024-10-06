@@ -20,6 +20,27 @@
     padding: 3rem;
     z-index: 120;
 }
+.fetching-text{
+    color: rgb(188, 222, 222)
+}
+.error-container {
+    background: rgb(114,219,141);
+background: -moz-linear-gradient(240deg, rgba(114,219,141,1) 0%, rgba(90,174,180,1) 24%, rgba(127,57,244,1) 100%);
+background: -webkit-linear-gradient(240deg, rgba(114,219,141,1) 0%, rgba(90,174,180,1) 24%, rgba(127,57,244,1) 100%);
+background: linear-gradient(240deg, rgba(114,219,141,1) 0%, rgba(90,174,180,1) 24%, rgba(127,57,244,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#72db8d",endColorstr="#7f39f4",GradientType=1);
+    background-size: 400% 400%;
+    background-color: white;
+    animation: AnimationName 30s ease infinite;
+}
+.error-container h2{
+    max-width: 50vw;
+}
+@keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
 .svg-path{
     fill: rgba(104, 104, 104, 0.525);
     
@@ -235,6 +256,18 @@
 .retrieved-songs{
     padding: 1rem 5rem;
 }
+.spinner-container{
+    overflow: hidden;
+    height:100%;
+    display: grid;
+    place-content: center;
+}
+.spinner-border{
+    fill: white;
+    scale: 1.5;
+    height:10rem;
+    width: 10rem;
+}
 .upper-song-container{
     border-bottom: 1px solid rgb(45, 44, 45);
     border-radius: 3rem 3rem 0 0 ;
@@ -317,10 +350,8 @@
     }
     .top-songs{
         color: white;
-      
         display: grid;
         grid-template-rows: 1fr 1fr;
-       
         padding: 1.5rem;
         background-color: rgba(44, 44, 44, 0.308); 
         width: auto;
@@ -333,14 +364,19 @@
 }
 @media screen and (max-width: 800px) {
     .grid-container{
-
-        width: 97%;
-       
+        width: 97%;  
         height: max-content;
         display: flex;
         flex-direction: column;
         padding-top: 1rem;
-        
+    }
+    .spinner-container{
+        padding: 3rem;
+    }
+    .spinner-border{
+        fill: white;  
+        height:5rem;
+        width: 5rem;
     }
     .grid-item{
         border-radius: 1rem;
@@ -352,40 +388,31 @@
     .find-svg{
         transform: translateY(0rem);
         position: relative;
-      
         width: 8rem;
         height: 8rem;
-        
-        
-        
     }
     .svg-path{
         fill: rgba(255, 255, 255, 0.332);
     }
      .grid-item-2{
-       
         align-items: center;
         height: 20rem;
         overflow: auto hidden;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         padding: 0 1rem;
-   
     }
     .my-card-container{
         width: 10rem;
         height: 17rem;
-   
     }
     .artist-image,.artist-text-body,.my-card-container,.top-songs{
         border-radius:  1rem 1rem;
     }
     .top-songs{
         color: white;
-      
         display: grid;
         grid-template-rows: 1fr 1fr;
-        
         padding: 2rem;
         background-color: rgba(44, 44, 44, 0.308); 
         height: 17rem;

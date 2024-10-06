@@ -1,6 +1,8 @@
 import "bootstrap/dist/css/bootstrap.css";
 import { useEffect, useState } from "react";
 export default function SearchBar(props: {
+  setError: any;
+  setLoading: any;
   setArtistName: any;
   setArtistGenre: any;
   setArtistImage: any;
@@ -10,6 +12,8 @@ export default function SearchBar(props: {
   setSearchString: any;
 }) {
   const {
+    setError,
+    setLoading,
     setArtistName,
     setArtistSongs,
     setArtistImage,
@@ -19,6 +23,7 @@ export default function SearchBar(props: {
     setSearchString,
   } = props;
   const [accessToken, setAccessToken] = useState("");
+
   useEffect(() => {
     const authParameters = {
       method: "POST",
@@ -38,6 +43,7 @@ export default function SearchBar(props: {
   }, []);
 
   async function fetchAPI(searchString: any) {
+    setLoading(true);
     const searchParams = {
       method: "GET",
       headers: {
@@ -45,50 +51,55 @@ export default function SearchBar(props: {
         authorization: `Bearer ${accessToken}`,
       },
     };
+    try {
+      var generalSongs = await fetch(
+        `https://api.spotify.com/v1/search?q=${searchString}&type=track`,
+        searchParams
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          //console.log(data);
+          return data;
+        });
+      //console.log(generalSongs);
 
-    var generalSongs = await fetch(
-      `https://api.spotify.com/v1/search?q=${searchString}&type=track`,
-      searchParams
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        //console.log(data);
-        return data;
-      });
-    //console.log(generalSongs);
+      const artist = await fetch(
+        `https://api.spotify.com/v1/search?q=${searchString}&type=artist`,
+        searchParams
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          // console.log(data.artists.items[0].id);
+          return data.artists.items[0];
+        });
 
-    const artist = await fetch(
-      `https://api.spotify.com/v1/search?q=${searchString}&type=artist`,
-      searchParams
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log(data.artists.items[0].id);
-        return data.artists.items[0];
-      });
+      //console.log(artist);
 
-    //console.log(artist);
+      const artistAlbums = await fetch(
+        `https://api.spotify.com/v1/artists/${artist.id}/albums?include_groups=album&market=US&limit=3`,
+        searchParams
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          //console.log(data.items);
+          return data.items;
+        });
 
-    const artistAlbums = await fetch(
-      `https://api.spotify.com/v1/artists/${artist.id}/albums?include_groups=album&market=US&limit=3`,
-      searchParams
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        //console.log(data.items);
-        return data.items;
-      });
-
-    var artistTopTracks = await fetch(
-      `https://api.spotify.com/v1/artists/${artist.id}/top-tracks`,
-      searchParams
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        //console.log(data);
-        return data;
-      });
-    return [artist, artistAlbums, artistTopTracks, generalSongs];
+      var artistTopTracks = await fetch(
+        `https://api.spotify.com/v1/artists/${artist.id}/top-tracks`,
+        searchParams
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          //console.log(data);
+          return data;
+        });
+      return [artist, artistAlbums, artistTopTracks, generalSongs];
+    } catch (error: any) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -110,66 +121,58 @@ export default function SearchBar(props: {
                 setSearchString(e.target.value);
                 fetchAPI(e.target.value).then((response) => {
                   //console.log("artist");
-                  setArtistName(response[0].name);
-                  setArtistGenre(response[0].genres);
-                  setArtistImage(response[0].images[0].url);
+                  if (response != undefined) {
+                    setArtistName(response[0].name);
+                    setArtistGenre(response[0].genres);
+                    setArtistImage(response[0].images[0].url);
+                    const namesArray = response[1].map(
+                      (item: {
+                        images: { url: string }[];
+                        name: string;
+                        total_tracks: string;
+                      }) => ({
+                        firstImage:
+                          item.images.length > 0 ? item.images[0].url : null,
+                        name: item.name,
+                        track_number: item.total_tracks,
+                      })
+                    );
+                    setArtistAlbums(namesArray);
+                    const songArray = response[2].tracks.map(
+                      (item: {
+                        name: string;
+                        duration_ms: number;
+                        album: any;
+                      }) => ({
+                        song_name: item.name,
+                        song_duration: item.duration_ms,
+                        Image:
+                          item.album.images.length > 0
+                            ? item.album.images[0].url
+                            : null,
+                      })
+                    );
+                    setArtistSongs(songArray);
 
-                  // console.log("artist albums");
-
-                  const namesArray = response[1].map(
-                    (item: {
-                      images: { url: string }[];
-                      name: string;
-                      total_tracks: string;
-                    }) => ({
-                      firstImage:
-                        item.images.length > 0 ? item.images[0].url : null,
-                      name: item.name,
-                      track_number: item.total_tracks,
-                    })
-                  );
-                  setArtistAlbums(namesArray);
-                  //console.log(response[1]);
-
-                  //console.log("artist top tracks");
-                  const songArray = response[2].tracks.map(
-                    (item: {
-                      name: string;
-                      duration_ms: number;
-                      album: any;
-                    }) => ({
-                      song_name: item.name,
-                      song_duration: item.duration_ms,
-                      Image:
-                        item.album.images.length > 0
-                          ? item.album.images[0].url
-                          : null,
-                    })
-                  );
-                  setArtistSongs(songArray);
-                  //console.log("tracks");
-                  //console.log(response[2].tracks);
-
-                  console.log("general song search");
-                  const generalSong = response[3].tracks.items.map(
-                    (item: {
-                      name: string;
-                      duration_ms: number;
-                      album: any;
-                      artists: any;
-                    }) => ({
-                      song_name: item.name,
-                      song_duration: item.duration_ms,
-                      Image:
-                        item.album.images.length > 0
-                          ? item.album.images[0].url
-                          : null,
-                      artist_name: item.artists[0].name,
-                    })
-                  );
-                  setSong(generalSong);
-                  // console.log(generalSong);
-                  // console.log(response[3].tracks.items);
+                    console.log("general song search");
+                    const generalSong = response[3].tracks.items.map(
+                      (item: {
+                        name: string;
+                        duration_ms: number;
+                        album: any;
+                        artists: any;
+                      }) => ({
+                        song_name: item.name,
+                        song_duration: item.duration_ms,
+                        Image:
+                          item.album.images.length > 0
+                            ? item.album.images[0].url
+                            : null,
+                        artist_name: item.artists[0].name,
+                      })
+                    );
+                    setSong(generalSong);
+                  }
                 });
 
                 console.log(e.target.value);
