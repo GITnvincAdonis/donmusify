@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.css";
 import { useEffect, useState } from "react";
+
 export default function SearchBar(props: {
   setError: any;
   setLoading: any;
@@ -101,6 +102,15 @@ export default function SearchBar(props: {
       setLoading(false);
     }
   }
+  const regex = /[a-zA-Z0-9]/g;
+
+  const [inputString, updateString] = useState("");
+  function ValidateString(input: String) {
+    const matches = input.match(regex); // Match all alphanumeric groups
+    const newString = matches ? matches.join("") : ""; // Join them back together // Join them back together
+    console.log(newString); // Log the cleaned string without special characters
+    return newString;
+  }
 
   return (
     <>
@@ -119,61 +129,64 @@ export default function SearchBar(props: {
               aria-label="Search Our API"
               onChange={(e) => {
                 setSearchString(e.target.value);
-                fetchAPI(e.target.value).then((response) => {
-                  //console.log("artist");
-                  if (response != undefined) {
-                    setArtistName(response[0].name);
-                    setArtistGenre(response[0].genres);
-                    setArtistImage(response[0].images[0].url);
-                    const namesArray = response[1].map(
-                      (item: {
-                        images: { url: string }[];
-                        name: string;
-                        total_tracks: string;
-                      }) => ({
-                        firstImage:
-                          item.images.length > 0 ? item.images[0].url : null,
-                        name: item.name,
-                        track_number: item.total_tracks,
-                      })
-                    );
-                    setArtistAlbums(namesArray);
-                    const songArray = response[2].tracks.map(
-                      (item: {
-                        name: string;
-                        duration_ms: number;
-                        album: any;
-                      }) => ({
-                        song_name: item.name,
-                        song_duration: item.duration_ms,
-                        Image:
-                          item.album.images.length > 0
-                            ? item.album.images[0].url
-                            : null,
-                      })
-                    );
-                    setArtistSongs(songArray);
+                updateString(ValidateString(e.target.value));
+                if (inputString != "") {
+                  fetchAPI(inputString).then((response) => {
+                    //console.log("artist");
+                    if (response != undefined) {
+                      setArtistName(response[0].name);
+                      setArtistGenre(response[0].genres);
+                      setArtistImage(response[0].images[0].url);
+                      const namesArray = response[1].map(
+                        (item: {
+                          images: { url: string }[];
+                          name: string;
+                          total_tracks: string;
+                        }) => ({
+                          firstImage:
+                            item.images.length > 0 ? item.images[0].url : null,
+                          name: item.name,
+                          track_number: item.total_tracks,
+                        })
+                      );
+                      setArtistAlbums(namesArray);
+                      const songArray = response[2].tracks.map(
+                        (item: {
+                          name: string;
+                          duration_ms: number;
+                          album: any;
+                        }) => ({
+                          song_name: item.name,
+                          song_duration: item.duration_ms,
+                          Image:
+                            item.album.images.length > 0
+                              ? item.album.images[0].url
+                              : null,
+                        })
+                      );
+                      setArtistSongs(songArray);
 
-                    console.log("general song search");
-                    const generalSong = response[3].tracks.items.map(
-                      (item: {
-                        name: string;
-                        duration_ms: number;
-                        album: any;
-                        artists: any;
-                      }) => ({
-                        song_name: item.name,
-                        song_duration: item.duration_ms,
-                        Image:
-                          item.album.images.length > 0
-                            ? item.album.images[0].url
-                            : null,
-                        artist_name: item.artists[0].name,
-                      })
-                    );
-                    setSong(generalSong);
-                  }
-                });
+                      console.log("general song search");
+                      const generalSong = response[3].tracks.items.map(
+                        (item: {
+                          name: string;
+                          duration_ms: number;
+                          album: any;
+                          artists: any;
+                        }) => ({
+                          song_name: item.name,
+                          song_duration: item.duration_ms,
+                          Image:
+                            item.album.images.length > 0
+                              ? item.album.images[0].url
+                              : null,
+                          artist_name: item.artists[0].name,
+                        })
+                      );
+                      setSong(generalSong);
+                    }
+                  });
+                }
 
                 console.log(e.target.value);
               }}
