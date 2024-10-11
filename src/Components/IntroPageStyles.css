@@ -3,14 +3,68 @@
     place-items: center;
 }
 .intro-image{
-    height: 10rem;
-    width: 10rem;
-    background-color: aqua;
-    margin: 2rem;
+    height: 20rem;
+    width: 20rem;
+
+
+    margin: 1rem;
 }
 .logo-text{
-    font-size: 3rem;
+    display: flex;
+
+
+}
+.logo-text h2{
+    font-size: 4rem;
+    line-height: 4.2rem;
+    width: max-content;
+ 
 }
 .logo-text-2{
+    
+    display: flex;
+}
+.logo-text-2-word{
+    line-height: 1.4rem;
+    margin-right: .3rem;
     font-size: 1.2rem;
+}
+
+.logo-text-2-word-4,.logo-text-2-word-5{
+
+    background: rgb(114,219,141);
+    background: linear-gradient(240deg, rgba(114,219,141,1) 0%, rgba(90,174,180,1) 24%, rgba(127,57,244,1) 100%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#72db8d",endColorstr="#7f39f4",GradientType=1);
+        background-size: 400% 400%;
+        background-color: white;
+        animation: AnimationName 6s ease infinite;
+}
+@keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+.nav-button{
+    border-radius: 3rem;
+    width: max-content;
+    padding: .1rem;
+  background-color: rgb(10, 10, 10);
+    transform-origin: 50% 50%;
+    transition-duration: 200ms;
+}
+.nav-button:hover{
+    scale: 1.02;
+    background-color: rgb(47, 47, 47);
+
+}
+.nav-button button{
+    border: none;
+    background: none;
+    
+    
+}
+.comp-SVG{
+    fill: rgb(15, 123, 111);
 }

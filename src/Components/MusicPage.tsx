@@ -4,6 +4,7 @@ import SearchBar from "./MusicPageComponents/SearchBar";
 import ArtistInfo from "./MusicPageComponents/ArtistInfo";
 import MusicResults from "./MusicPageComponents/MusicResults";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 interface Album {
   firstImage: string;
@@ -50,7 +51,13 @@ export default function MusicPage() {
   }
   return (
     <>
-      <div className="vw-100 bg-black d-flex justify-content-center align-items-center">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3, delay: 0 }}
+        className="vw-100 bg-black d-flex justify-content-center align-items-center"
+      >
         <div className="grid-container">
           <div className="grid-item grid-item-1">
             <SearchBar
@@ -134,7 +141,7 @@ export default function MusicPage() {
             </>
           )}
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }
